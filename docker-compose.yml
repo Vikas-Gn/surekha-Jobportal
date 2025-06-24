@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres6
+    ports:
+      - "5013:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: jobportal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  backend:
+    build:
+      context: ./Backend
+    container_name: Backend1
+    ports:
+      - "3045:3045"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: jobportal
+      PORT: 3045
+    depends_on:
+      - postgres
+
+  browsing-jobs:
+    build:
+      context: ./browsing-jobs
+    container_name: browsing-jobs
+    ports:
+      - "8055:80"
+    depends_on:
+      - backend
+
+  hr-side-posting:
+    build:
+      context: ./hr-side posting
+    container_name: hr-side-posting
+    ports:
+      - "8056:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+
