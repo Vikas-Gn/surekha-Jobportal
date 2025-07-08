@@ -5,7 +5,7 @@ services:
     image: postgres:13
     container_name: postgres6
     ports:
-      - "5013:5432"
+      - "5604:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -19,7 +19,7 @@ services:
       context: ./Backend
     container_name: Backend1
     ports:
-      - "3045:3045"
+      - "3604:3604"
     environment:
       DB_USER: postgres
       DB_PASSWORD: postgres
@@ -35,7 +35,7 @@ services:
       context: ./browsing-jobs
     container_name: browsing-jobs
     ports:
-      - "8055:80"
+      - "8608:80"
     depends_on:
       - backend
 
@@ -44,7 +44,7 @@ services:
       context: ./hr-side posting
     container_name: hr-side-posting
     ports:
-      - "8056:80"
+      - "8609:80"
     depends_on:
       - backend
 
